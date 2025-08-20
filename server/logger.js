@@ -2,7 +2,8 @@ const pino = require('pino')
 const { colorizerFactory } = require('pino-pretty')
 
 module.exports = pino({
-    level: process.env.PINI_LOG_LEVEL || 'info',
+    level: process.env.PINI_LOG_LEVEL || 'trace',
+    redact: ['req.headers.authorization'],
     formatters: {
         bindings: (bindings) => {
             return {
@@ -24,4 +25,4 @@ module.exports = pino({
         }
     },
     timestamp: pino.stdTimeFunctions.isoTime,
-}) 
+})                                
