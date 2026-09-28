@@ -9,10 +9,17 @@ const errorHandler = require('./middleware/ErrorHandingMidddleware');
 const path = require('path');
 const pino = require('pino-http');
 const logger = require('./logger')
+const cron = require('node-cron');
+const clearLogFile = require('./logs/logCleaner');
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 
 const app = express()
+
+cron.schedule('* * * * *', () => {
+    clearLogFile()
+})
+
 app.use(pino.pinoHttp({logger}))
 app.use(cors())
 app.use(express.json())
